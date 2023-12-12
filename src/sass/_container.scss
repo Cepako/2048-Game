@@ -1,0 +1,36 @@
+body {
+  background-color: #faf8ee;
+  font-family: sans-serif;
+  height: 70vh;
+  .container {
+    height: 100%;
+    width: 30%;
+    margin: 3% auto;
+  }
+  @media screen and (max-width: 1500px) {
+    .container {
+      width: 40%;
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    .container {
+      width: 50%;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .container {
+      width: 70%;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    height: 75vh;
+    .container {
+      width: 90%;
+    }
+  }
+  @media screen and (max-width: 360px) {
+    .container {
+      width: 95%;
+    }
+  }
+}
