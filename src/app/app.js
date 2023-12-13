@@ -32,10 +32,19 @@ function randomTile() {
     else if (countUsedTiles === tiles.length) randomFlag = !randomFlag;
   }
   if (countUsedTiles < tiles.length) {
-    console.log(randomTileIndex);
     tiles[randomTileIndex].innerText = 2;
     tiles[randomTileIndex].style.backgroundColor =
       colorPallet.backgroundColor[0];
+    tiles[randomTileIndex].style.color = colorPallet.fontColor[0];
+    tiles[randomTileIndex].classList.add('tile-appear');
+
+    tiles[randomTileIndex].addEventListener(
+      'transitionend',
+      function () {
+        this.classList.remove('tile-appear');
+      },
+      { once: true }
+    );
   }
 }
 
