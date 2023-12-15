@@ -14,9 +14,61 @@
     width: 21%;
     height: 21%;
     background-color: #cdc1b2;
-    color: #7b7168;
+    color: white;
     font-size: 4em;
     font-weight: bold;
+    &[data-value='2'] {
+      background-color: #eee4d9;
+      color: #7c6f65;
+    }
+    &[data-value='4'] {
+      background-color: #ede0c7;
+      color: #7c6e5b;
+    }
+    &[data-value='8'] {
+      background-color: #f7b478;
+    }
+    &[data-value='16'] {
+      background-color: #fe9c62;
+    }
+    &[data-value='32'] {
+      background-color: #ff875f;
+    }
+    &[data-value='64'] {
+      background-color: #fe6a3a;
+    }
+    &[data-value='128'] {
+      background-color: #efcd71;
+      font-size: 3.2em;
+    }
+    &[data-value='256'] {
+      background-color: #f0c85c;
+      font-size: 3.2em;
+    }
+    &[data-value='512'] {
+      background-color: #f0c54f;
+      font-size: 3.2em;
+    }
+    &[data-value='1024'] {
+      background-color: #f2c13f;
+      font-size: 2.7em;
+    }
+    &[data-value='2048'] {
+      background-color: #f9b902;
+      font-size: 2.7em;
+    }
+    &[data-value='4096'] {
+      background-color: #49bb93;
+      font-size: 2.7em;
+    }
+    &[data-value='8192'] {
+      background-color: #0d9664;
+      font-size: 2.7em;
+    }
+    &[data-value='16384'] {
+      background-color: #13714f;
+      font-size: 2.2em;
+    }
   }
   .tile-appear {
     animation: appear 0.3s;

@@ -1,23 +1,4 @@
-const tiles = document.querySelectorAll('.game-panel__tile');
-const colorPallet = {
-  backgroundColor: [
-    '#eee4d9',
-    '#ede0c7',
-    '#f7b478',
-    '#fe9c62',
-    '#ff875f',
-    '#fe6a3a',
-    '#efcd71',
-    '#f0c85c',
-    '#f0c54f',
-    '#f2c13f',
-    '#f9b902',
-    '#49bb93',
-    '#0d9664',
-    '#13714f',
-  ],
-  fontColor: ['#7c6f65', '#7c6e5b', '#ffffff'],
-};
+const tiles = [...document.querySelectorAll('.game-panel__tile')];
 
 function randomTile() {
   let randomFlag = true,
@@ -33,9 +14,8 @@ function randomTile() {
   }
   if (countUsedTiles < tiles.length) {
     tiles[randomTileIndex].innerText = 2;
-    tiles[randomTileIndex].style.backgroundColor =
-      colorPallet.backgroundColor[0];
-    tiles[randomTileIndex].style.color = colorPallet.fontColor[0];
+    tiles[randomTileIndex].dataset.value = 2;
+
     tiles[randomTileIndex].classList.add('tile-appear');
 
     tiles[randomTileIndex].addEventListener(
@@ -51,9 +31,63 @@ function randomTile() {
 document.querySelector('.header__reset').addEventListener('click', () => {
   tiles.forEach((tile) => {
     tile.innerText = '';
-    tile.style.backgroundColor = '#cdc1b2';
-    tile.style.color = '#7b7168';
+    tile.dataset.value = '';
   });
   randomTile();
   randomTile();
 });
+
+function changeTile(i, j, moveType) {
+  if (moveType === 'move') {
+    tiles[j].dataset.value = tiles[i].dataset.value;
+    tiles[j].innerText = tiles[i].innerText;
+    tiles[i].dataset.value = '';
+    tiles[i].innerText = '';
+  } else if (moveType === 'add') {
+    tiles[j].dataset.value = tiles[j].dataset.value * 2;
+    tiles[j].textContent = tiles[j].dataset.value;
+    tiles[i].dataset.value = '';
+    tiles[i].innerText = '';
+  }
+}
+
+function moveUp() {
+  let canGoUp = true;
+  for (let i = 4; i < tiles.length; i++) {
+    let j = i;
+    while (j >= 4) {
+      const currentTile = tiles[j],
+        aboveTile = tiles[j - 4];
+      if (aboveTile.dataset.value === '') {
+        changeTile(j, j - 4, 'move');
+      } else if (aboveTile.dataset.value === currentTile.dataset.value) {
+        changeTile(j, j - 4, 'add');
+        break;
+      } else {
+        canGoUp = !canGoUp;
+        break;
+      }
+      j -= 4;
+    }
+  }
+  if (canGoUp) randomTile();
+}
+
+function moveTiles(e) {
+  switch (e.key) {
+    case 'ArrowUp':
+      moveUp();
+      break;
+    case 'ArrowDown':
+      break;
+    case 'ArrowRight':
+      break;
+    case 'ArrowLeft':
+      break;
+  }
+}
+
+document.addEventListener('keydown', moveTiles);
+
+randomTile();
+randomTile();
