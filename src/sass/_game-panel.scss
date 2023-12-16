@@ -17,9 +17,7 @@
     color: white;
     font-size: 4em;
     font-weight: bold;
-    &[data-value='0'] {
-      color: transparent;
-    }
+    user-select: none;
     &[data-value='2'] {
       background-color: #eee4d9;
       color: #7c6f65;
