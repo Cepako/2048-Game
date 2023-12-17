@@ -1,14 +1,14 @@
-let score,
+let score = 0,
   board,
   rows = 4,
   columns = 4;
 
 function initGameBoard() {
   board = [
-    [2, 2, 2, 2],
-    [2, 2, 2, 2],
-    [4, 4, 8, 8],
-    [4, 4, 8, 8],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
   ];
 
   const gamePanel = document.querySelector('.game-panel');
@@ -21,6 +21,26 @@ function initGameBoard() {
       updateTile(tile, num);
       gamePanel.appendChild(tile);
     }
+  randomTile();
+  randomTile();
+}
+
+function randomTile() {
+  let tileSet = false;
+  while (!tileSet) {
+    let randomRow = Math.floor(Math.random() * rows),
+      randomCol = Math.floor(Math.random() * columns);
+
+    let tileNum = board[randomRow][randomCol];
+
+    if (tileNum === 0) {
+      let tile = document.getElementById(`${randomRow}-${randomCol}`);
+      board[randomRow][randomCol] = 2;
+      updateTile(tile, 2);
+
+      tileSet = true;
+    }
+  }
 }
 
 function updateTile(tile, num) {
@@ -39,7 +59,8 @@ function slide(row) {
     if (row[c] === row[c + 1]) {
       row[c] *= 2;
       row[c + 1] = 0;
-      score += row[c];
+      score += isNaN(row[c]) ? 0 : row[c];
+      document.querySelector('span.live-score').innerText = score;
     }
   }
   row = filterZero(row);
@@ -121,15 +142,19 @@ function moveTiles(e) {
   switch (e.key) {
     case 'ArrowUp':
       moveUp();
+      randomTile();
       break;
     case 'ArrowDown':
       moveDown();
+      randomTile();
       break;
     case 'ArrowRight':
       moveRight();
+      randomTile();
       break;
     case 'ArrowLeft':
       moveLeft();
+      randomTile();
       break;
   }
 }
