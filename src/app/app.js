@@ -52,6 +52,43 @@ function fixNaN() {
     for (let c = 0; c < columns; c++) if (isNaN(board[r][c])) board[r][c] = 0;
 }
 
+function moveUp() {
+  let upRow;
+  for (let c = 0; c < columns; c++) {
+    upRow = [];
+    for (let r = rows - 1; r >= 0; r--) {
+      upRow.push(board[r][c]);
+    }
+    upRow = slide(upRow.reverse());
+    for (let r = 0; r < rows; r++) {
+      board[r][c] = upRow[r];
+      let tile = document.getElementById(`${r}-${c}`);
+      let num = board[r][c];
+      updateTile(tile, num);
+    }
+  }
+  fixNaN();
+}
+
+function moveDown() {
+  let downRow;
+  for (let c = 0; c < columns; c++) {
+    downRow = [];
+    for (let r = 0; r < rows; r++) {
+      downRow.push(board[r][c]);
+    }
+    downRow = slide(downRow.reverse());
+    downRow = downRow.reverse();
+    for (let r = 0; r < rows; r++) {
+      board[r][c] = downRow[r];
+      let tile = document.getElementById(`${r}-${c}`);
+      let num = board[r][c];
+      updateTile(tile, num);
+    }
+  }
+  fixNaN();
+}
+
 function moveRight() {
   for (let r = 0; r < rows; r++) {
     let row = board[r];
@@ -83,8 +120,10 @@ function moveLeft() {
 function moveTiles(e) {
   switch (e.key) {
     case 'ArrowUp':
+      moveUp();
       break;
     case 'ArrowDown':
+      moveDown();
       break;
     case 'ArrowRight':
       moveRight();
