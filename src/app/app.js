@@ -25,8 +25,36 @@ function initGameBoard() {
   randomTile();
 }
 
+function newGame() {
+  board = [
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+  ];
+
+  for (let r = 0; r < rows; r++)
+    for (let c = 0; c < columns; c++) {
+      let tile = document.getElementById(`${r}-${c}`);
+      let num = board[r][c];
+      updateTile(tile, num);
+    }
+  score = 0;
+  document.querySelector('span.live-score').innerText = score;
+  randomTile();
+  randomTile();
+}
+
+function isAnyTileAvailable() {
+  for (let r = 0; r < rows; r++)
+    for (let c = 0; c < columns; c++) if (board[r][c] === 0) return true;
+
+  return false;
+}
+
 function randomTile() {
-  let tileSet = false;
+  let tileSet = !isAnyTileAvailable();
+
   while (!tileSet) {
     let randomRow = Math.floor(Math.random() * rows),
       randomCol = Math.floor(Math.random() * columns);
@@ -160,5 +188,7 @@ function moveTiles(e) {
 }
 
 document.addEventListener('keyup', moveTiles);
+
+document.querySelector('.header__reset').addEventListener('click', newGame);
 
 document.addEventListener('DOMContentLoaded', initGameBoard);
