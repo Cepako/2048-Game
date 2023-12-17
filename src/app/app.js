@@ -5,10 +5,10 @@ let score,
 
 function initGameBoard() {
   board = [
-    [2, 2, 0, 0],
     [2, 2, 2, 2],
-    [4, 4, 0, 8],
-    [4, 0, 8, 8],
+    [2, 2, 2, 2],
+    [4, 4, 8, 8],
+    [4, 4, 8, 8],
   ];
 
   const gamePanel = document.querySelector('.game-panel');
@@ -47,6 +47,25 @@ function slide(row) {
   return row;
 }
 
+function fixNaN() {
+  for (let r = 0; r < rows; r++)
+    for (let c = 0; c < columns; c++) if (isNaN(board[r][c])) board[r][c] = 0;
+}
+
+function moveRight() {
+  for (let r = 0; r < rows; r++) {
+    let row = board[r];
+    row = slide(row.reverse());
+    board[r] = row.reverse();
+    for (let c = 0; c < columns; c++) {
+      let tile = document.getElementById(`${r}-${c}`);
+      let num = board[r][c];
+      updateTile(tile, num);
+    }
+  }
+  fixNaN();
+}
+
 function moveLeft() {
   for (let r = 0; r < rows; r++) {
     let row = board[r];
@@ -58,6 +77,7 @@ function moveLeft() {
       updateTile(tile, num);
     }
   }
+  fixNaN();
 }
 
 function moveTiles(e) {
@@ -67,6 +87,7 @@ function moveTiles(e) {
     case 'ArrowDown':
       break;
     case 'ArrowRight':
+      moveRight();
       break;
     case 'ArrowLeft':
       moveLeft();
