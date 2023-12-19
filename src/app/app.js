@@ -100,9 +100,19 @@ function fixNaN() {
   for (let r = 0; r < rows; r++)
     for (let c = 0; c < columns; c++) if (isNaN(board[r][c])) board[r][c] = 0;
 }
+function copyBoardBefore() {
+  return board.map((row) => row.map((tile) => tile));
+}
+function arraysAreEqual(ar1, ar2) {
+  for (let r = 0; r < ar1.length; r++)
+    for (let c = 0; c < ar1[r].length; c++)
+      if (ar1[r][c] !== ar2[r][c]) return false;
+  return true;
+}
 
 function moveUp() {
   let upRow;
+  const boardBefore = copyBoardBefore();
   for (let c = 0; c < columns; c++) {
     upRow = [];
     for (let r = rows - 1; r >= 0; r--) {
@@ -117,10 +127,13 @@ function moveUp() {
     }
   }
   fixNaN();
+  if (arraysAreEqual(board, boardBefore)) return;
+  randomTile();
 }
 
 function moveDown() {
   let downRow;
+  const boardBefore = copyBoardBefore();
   for (let c = 0; c < columns; c++) {
     downRow = [];
     for (let r = 0; r < rows; r++) {
@@ -136,9 +149,12 @@ function moveDown() {
     }
   }
   fixNaN();
+  if (arraysAreEqual(board, boardBefore)) return;
+  randomTile();
 }
 
 function moveRight() {
+  const boardBefore = copyBoardBefore();
   for (let r = 0; r < rows; r++) {
     let row = board[r];
     row = slide(row.reverse());
@@ -150,9 +166,12 @@ function moveRight() {
     }
   }
   fixNaN();
+  if (arraysAreEqual(board, boardBefore)) return;
+  randomTile();
 }
 
 function moveLeft() {
+  const boardBefore = copyBoardBefore();
   for (let r = 0; r < rows; r++) {
     let row = board[r];
     row = slide(row);
@@ -164,25 +183,23 @@ function moveLeft() {
     }
   }
   fixNaN();
+  if (arraysAreEqual(board, boardBefore)) return;
+  randomTile();
 }
 
 function moveTiles(e) {
   switch (e.key) {
     case 'ArrowUp':
       moveUp();
-      randomTile();
       break;
     case 'ArrowDown':
       moveDown();
-      randomTile();
       break;
     case 'ArrowRight':
       moveRight();
-      randomTile();
       break;
     case 'ArrowLeft':
       moveLeft();
-      randomTile();
       break;
   }
 }
