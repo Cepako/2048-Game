@@ -1,7 +1,16 @@
 let score = 0,
+  bestScore = 0,
   board,
   rows = 4,
-  columns = 4;
+  columns = 4,
+  canMoveRight = false,
+  canMoveLeft = false,
+  canMoveUp = false,
+  canMoveDown = false;
+
+const popUp = document.querySelector('.popUp'),
+  container = document.querySelector('.container'),
+  bestScr = document.querySelector('.best-score');
 
 function initGameBoard() {
   board = [
@@ -32,6 +41,10 @@ function newGame() {
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ];
+  (canMoveRight = true),
+    (canMoveLeft = true),
+    (canMoveUp = true),
+    (canMoveDown = true);
 
   for (let r = 0; r < rows; r++)
     for (let c = 0; c < columns; c++) {
@@ -43,6 +56,17 @@ function newGame() {
   document.querySelector('span.live-score').innerText = score;
   randomTile();
   randomTile();
+}
+function isGameOver() {
+  if (!canMoveDown && !canMoveUp && !canMoveRight && !canMoveLeft) {
+    popUp.classList.add('active');
+    container.classList.add('blur');
+    document.querySelector('.score').innerText = score;
+    score > bestScore
+      ? (bestScr.innerText = score)
+      : (bestScr.innerText = bestScore);
+    bestScore = score;
+  }
 }
 
 function isAnyTileAvailable() {
@@ -89,6 +113,9 @@ function slide(row) {
       row[c + 1] = 0;
       score += isNaN(row[c]) ? 0 : row[c];
       document.querySelector('span.live-score').innerText = score;
+      score > bestScore
+        ? (bestScr.innerText = score)
+        : (bestScr.innerText = bestScore);
     }
   }
   row = filterZero(row);
@@ -127,7 +154,12 @@ function moveUp() {
     }
   }
   fixNaN();
-  if (arraysAreEqual(board, boardBefore)) return;
+  if (arraysAreEqual(board, boardBefore)) {
+    canMoveUp = false;
+    isGameOver();
+    return;
+  }
+  canMoveUp = true;
   randomTile();
 }
 
@@ -149,7 +181,12 @@ function moveDown() {
     }
   }
   fixNaN();
-  if (arraysAreEqual(board, boardBefore)) return;
+  if (arraysAreEqual(board, boardBefore)) {
+    canMoveDown = false;
+    isGameOver();
+    return;
+  }
+  canMoveDown = true;
   randomTile();
 }
 
@@ -166,7 +203,12 @@ function moveRight() {
     }
   }
   fixNaN();
-  if (arraysAreEqual(board, boardBefore)) return;
+  if (arraysAreEqual(board, boardBefore)) {
+    canMoveRight = false;
+    isGameOver();
+    return;
+  }
+  canMoveRight = true;
   randomTile();
 }
 
@@ -183,7 +225,12 @@ function moveLeft() {
     }
   }
   fixNaN();
-  if (arraysAreEqual(board, boardBefore)) return;
+  if (arraysAreEqual(board, boardBefore)) {
+    canMoveLeft = false;
+    isGameOver();
+    return;
+  }
+  canMoveLeft = true;
   randomTile();
 }
 
@@ -207,5 +254,10 @@ function moveTiles(e) {
 document.addEventListener('keyup', moveTiles);
 
 document.querySelector('.header__reset').addEventListener('click', newGame);
+
+document.querySelector('.fa-x').addEventListener('click', () => {
+  popUp.classList.remove('active');
+  container.classList.remove('blur');
+});
 
 document.addEventListener('DOMContentLoaded', initGameBoard);

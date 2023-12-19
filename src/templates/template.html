@@ -4,8 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2048</title>
+    <script
+      src="https://kit.fontawesome.com/9be3efa245.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
+    <div class="popUp">
+      <i class="fa-solid fa-x"></i>
+      <h1>
+        Game Over!<br />
+        Your Score:<br />
+        <span class="score">0</span>
+      </h1>
+    </div>
     <div class="container">
       <div class="header">
         <h1 class="header__title">2048</h1>
@@ -16,7 +28,7 @@
           </div>
           <div class="scores__best">
             Best<br />
-            <span class="best-score">8000</span>
+            <span class="best-score">0</span>
           </div>
         </div>
         <p class="header__rules">
