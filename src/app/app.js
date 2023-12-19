@@ -2,11 +2,7 @@ let score = 0,
   bestScore = 0,
   board,
   rows = 4,
-  columns = 4,
-  canMoveRight = false,
-  canMoveLeft = false,
-  canMoveUp = false,
-  canMoveDown = false;
+  columns = 4;
 
 const popUp = document.querySelector('.popUp'),
   container = document.querySelector('.container'),
@@ -41,10 +37,6 @@ function newGame() {
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ];
-  (canMoveRight = true),
-    (canMoveLeft = true),
-    (canMoveUp = true),
-    (canMoveDown = true);
 
   for (let r = 0; r < rows; r++)
     for (let c = 0; c < columns; c++) {
@@ -58,7 +50,7 @@ function newGame() {
   randomTile();
 }
 function isGameOver() {
-  if (!canMoveDown && !canMoveUp && !canMoveRight && !canMoveLeft) {
+  if (gameEnd()) {
     popUp.classList.add('active');
     container.classList.add('blur');
     document.querySelector('.score').innerText = score;
@@ -67,6 +59,25 @@ function isGameOver() {
       : (bestScr.innerText = bestScore);
     bestScore = score;
   }
+}
+function gameEnd() {
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns; c++) {
+      const currentTile = board[r][c];
+
+      if (
+        (r > 0 && currentTile === board[r - 1][c]) ||
+        (r < rows - 1 && currentTile === board[r + 1][c]) ||
+        (c > 0 && currentTile === board[r][c - 1]) ||
+        (c < columns - 1 && currentTile === board[r][c + 1])
+      ) {
+        return false;
+      }
+    }
+  }
+  if (isAnyTileAvailable()) return false;
+
+  return true;
 }
 
 function isAnyTileAvailable() {
@@ -154,12 +165,7 @@ function moveUp() {
     }
   }
   fixNaN();
-  if (arraysAreEqual(board, boardBefore)) {
-    canMoveUp = false;
-    isGameOver();
-    return;
-  }
-  canMoveUp = true;
+  if (arraysAreEqual(board, boardBefore)) return;
   randomTile();
 }
 
@@ -181,12 +187,7 @@ function moveDown() {
     }
   }
   fixNaN();
-  if (arraysAreEqual(board, boardBefore)) {
-    canMoveDown = false;
-    isGameOver();
-    return;
-  }
-  canMoveDown = true;
+  if (arraysAreEqual(board, boardBefore)) return;
   randomTile();
 }
 
@@ -203,12 +204,8 @@ function moveRight() {
     }
   }
   fixNaN();
-  if (arraysAreEqual(board, boardBefore)) {
-    canMoveRight = false;
-    isGameOver();
-    return;
-  }
-  canMoveRight = true;
+  if (arraysAreEqual(board, boardBefore)) return;
+
   randomTile();
 }
 
@@ -225,12 +222,8 @@ function moveLeft() {
     }
   }
   fixNaN();
-  if (arraysAreEqual(board, boardBefore)) {
-    canMoveLeft = false;
-    isGameOver();
-    return;
-  }
-  canMoveLeft = true;
+  if (arraysAreEqual(board, boardBefore)) return;
+
   randomTile();
 }
 
@@ -238,15 +231,19 @@ function moveTiles(e) {
   switch (e.key) {
     case 'ArrowUp':
       moveUp();
+      isGameOver();
       break;
     case 'ArrowDown':
       moveDown();
+      isGameOver();
       break;
     case 'ArrowRight':
       moveRight();
+      isGameOver();
       break;
     case 'ArrowLeft':
       moveLeft();
+      isGameOver();
       break;
   }
 }
