@@ -49,6 +49,7 @@ function newGame() {
   randomTile();
   randomTile();
 }
+
 function isGameOver() {
   if (gameEnd()) {
     popUp.classList.add('active');
@@ -60,6 +61,7 @@ function isGameOver() {
     bestScore = score;
   }
 }
+
 function gameEnd() {
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < columns; c++) {
@@ -138,9 +140,11 @@ function fixNaN() {
   for (let r = 0; r < rows; r++)
     for (let c = 0; c < columns; c++) if (isNaN(board[r][c])) board[r][c] = 0;
 }
+
 function copyBoardBefore() {
   return board.map((row) => row.map((tile) => tile));
 }
+
 function arraysAreEqual(ar1, ar2) {
   for (let r = 0; r < ar1.length; r++)
     for (let c = 0; c < ar1[r].length; c++)
@@ -255,6 +259,34 @@ document.querySelector('.header__reset').addEventListener('click', newGame);
 document.querySelector('.fa-x').addEventListener('click', () => {
   popUp.classList.remove('active');
   container.classList.remove('blur');
+});
+
+let clientX, clientY;
+
+document.querySelector('.game-panel').addEventListener('touchstart', (e) => {
+  clientX = e.touches[0].clientX;
+  clientY = e.touches[0].clientY;
+});
+document.querySelector('.game-panel').addEventListener('touchend', (e) => {
+  let deltaX = e.changedTouches[0].clientX - clientX,
+    deltaY = e.changedTouches[0].clientY - clientY;
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX < 0) {
+      moveLeft();
+      isGameOver();
+    } else {
+      moveRight();
+      isGameOver();
+    }
+  } else {
+    if (deltaY < 0) {
+      moveUp();
+      isGameOver();
+    } else {
+      moveDown();
+      isGameOver();
+    }
+  }
 });
 
 document.addEventListener('DOMContentLoaded', initGameBoard);
