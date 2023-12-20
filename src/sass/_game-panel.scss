@@ -73,6 +73,38 @@
     }
     @media screen and (max-width: 600px) {
       font-size: 3em;
+      &[data-value='128'] {
+        background-color: #efcd71;
+        font-size: 2.5em;
+      }
+      &[data-value='256'] {
+        background-color: #f0c85c;
+        font-size: 2.5em;
+      }
+      &[data-value='512'] {
+        background-color: #f0c54f;
+        font-size: 2.5em;
+      }
+      &[data-value='1024'] {
+        background-color: #f2c13f;
+        font-size: 2em;
+      }
+      &[data-value='2048'] {
+        background-color: #f9b902;
+        font-size: 2em;
+      }
+      &[data-value='4096'] {
+        background-color: #49bb93;
+        font-size: 2em;
+      }
+      &[data-value='8192'] {
+        background-color: #0d9664;
+        font-size: 2em;
+      }
+      &[data-value='16384'] {
+        background-color: #13714f;
+        font-size: 1.7em;
+      }
     }
   }
   .tile-appear {
